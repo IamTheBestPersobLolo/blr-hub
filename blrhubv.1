@@ -37,7 +37,7 @@ local Window = Rayfield:CreateWindow({
  local Tab = Window:CreateTab("GK", 4483362458) -- Title, Image
 
  local Toggle = Tab:CreateToggle({
-    Name = "Toggle Example",
+    Name = "Auto GK",
     CurrentValue = false,
     Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
     Callback = function(Value)
@@ -101,8 +101,6 @@ local Window = Rayfield:CreateWindow({
     end,
  })
 
- local Tab = Window:CreateTab("HitBox Visualiser", 4483362458) -- Title, Image
-
  local Players = game:GetService("Players")
  local RunService = game:GetService("RunService")
  
@@ -135,7 +133,7 @@ local Window = Rayfield:CreateWindow({
  local Tab = Window:CreateTab("Tp to ball", 4483362458) -- Title, Image
 
  local Button = Tab:CreateButton({
-    Name = "Button Example",
+    Name = "Tp to Ball",
     Callback = function()
         local Players = game:GetService("Players")
         local player = Players.LocalPlayer
