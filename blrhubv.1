@@ -34,7 +34,7 @@ local Window = Rayfield:CreateWindow({
     }
  })
 
- local Tab = Window:CreateTab("GK", 4483362458) -- Title, Image
+ local Tab = Window:CreateTab("Main", 4483362458) -- Title, Image
 
  local Toggle = Tab:CreateToggle({
     Name = "Auto GK",
@@ -130,8 +130,6 @@ local Window = Rayfield:CreateWindow({
  
  RunService.RenderStepped:Connect(visualizeHitboxes)
 
- local Tab = Window:CreateTab("Tp to ball", 4483362458) -- Title, Image
-
  local Button = Tab:CreateButton({
     Name = "Tp to Ball",
     Callback = function()
@@ -146,5 +144,57 @@ local Window = Rayfield:CreateWindow({
         end
         
         teleportToBall()
+    end,
+ })
+
+ local Tab = Window:CreateTab("Extra", 4483362458) -- Title, Image
+
+ local Toggle = Tab:CreateToggle({
+    Name = "Toggle Example",
+    CurrentValue = false,
+    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        local Players = game:GetService("Players")
+        local RunService = game:GetService("RunService")
+        local Camera = workspace.CurrentCamera
+        local LocalPlayer = Players.LocalPlayer
+        
+        local maxDistance = 75
+        local TargetPlayer = nil
+        
+        RunService.RenderStepped:Connect(function()
+            if not LocalPlayer.Character or not LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                TargetPlayer = nil
+                return
+            end
+        
+            local shortestDistance = math.huge
+            local closestPlayer = nil
+        
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                    local distance = (LocalPlayer.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).Magnitude
+                    if distance < maxDistance and distance < shortestDistance then
+                        shortestDistance = distance
+                        closestPlayer = player
+                    end
+                end
+            end
+        
+            TargetPlayer = closestPlayer
+        
+            if TargetPlayer and TargetPlayer.Character and TargetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                local targetPos = TargetPlayer.Character.HumanoidRootPart.Position
+                local camPos = Camera.CFrame.Position
+                Camera.CFrame = CFrame.new(camPos, targetPos)
+        
+                local hrp = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                if hrp then
+                    local lookVector = (targetPos - hrp.Position).Unit
+                    local newCFrame = CFrame.new(hrp.Position, hrp.Position + Vector3.new(lookVector.X, 0, lookVector.Z))
+                    hrp.CFrame = newCFrame
+                end
+            end
+        end)
     end,
  })
