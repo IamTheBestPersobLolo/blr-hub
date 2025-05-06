@@ -150,7 +150,7 @@ local Window = Rayfield:CreateWindow({
  local Tab = Window:CreateTab("Extra", 4483362458) -- Title, Image
 
  local Toggle = Tab:CreateToggle({
-    Name = "Toggle Example",
+    Name = "Camera Lock",
     CurrentValue = false,
     Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
     Callback = function(Value)
@@ -196,5 +196,14 @@ local Window = Rayfield:CreateWindow({
                 end
             end
         end)
+    end,
+ })
+
+ local Toggle = Tab:CreateToggle({
+    Name = "Shiftlock",
+    CurrentValue = false,
+    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Shiftlock-For-Mobile-Script-36530"))()
     end,
  })
